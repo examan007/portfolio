@@ -12,6 +12,7 @@ return {
         show: function () {
             const dims = getWindowDimensions()
             console.log(dims)
+            return dims
         }
 
     }
