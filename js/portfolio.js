@@ -93,12 +93,14 @@ var Portfolio = function () {
 
     document.addEventListener('DOMContentLoaded', function(event) {
         getResources()
+    });
+
+    window.addEventListener('load', function(event) {
         CustomObj()
         window.setTimeout(() => {
             portfolio.setHeight()
         }, 3000)
     });
-
 
 return {
         show: function () {
