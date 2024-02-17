@@ -18,10 +18,13 @@
 	<link rel="stylesheet" href="css/portfolio.css">
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Dosis:400,700' rel='stylesheet' type='text/css'>
-<!-- 
-Alpha Template
-https://templatemo.com/tm-465-alpha
--->
+
+	<script src="data/resources.js"></script>
+	<script src="js/portfolio.js"></script>
+	<!--
+    Alpha Template
+    https://templatemo.com/tm-465-alpha
+    -->
 </head>
 <body data-spy="scroll" data-target=".navbar-collapse" style="overflow: hidden;">
 
@@ -44,58 +47,10 @@ https://templatemo.com/tm-465-alpha
                		</ul>
                		<div class="iso-box-section wow fadeIn" data-wow-delay="0.9s">
                			<div class="iso-box-wrapper col4-iso-box">
-               				 <div class="iso-box html property mobile col-md-4 col-sm-4">
-               				 	<a href="https://carringtonplaceretirement.ca/wp-content/uploads/2022/02/reception-2.jpg"
+							<div class="iso-box html template-property col-md-4 col-sm-4">
+								<a href="${filename}"
 								   data-lightbox-gallery="portfolio-gallery">
-									<img src="https://carringtonplaceretirement.ca/wp-content/uploads/2022/02/reception-2.jpg" alt="portfolio img">
-								</a>
-               				 </div>
-							<div class="iso-box html property mobile col-md-4 col-sm-4">
-								<a href="https://carringtonplaceretirement.ca/wp-content/uploads/2022/02/reception-1.jpg"
-								   data-lightbox-gallery="portfolio-gallery">
-									<img src="https://carringtonplaceretirement.ca/wp-content/uploads/2022/02/reception-1.jpg" alt="portfolio img">
-								</a>
-							</div>
-							<div class="iso-box html property mobile col-md-4 col-sm-4">
-								<a href="https://carringtonplaceretirement.ca/wp-content/uploads/2022/02/3.jpg"
-								   data-lightbox-gallery="portfolio-gallery">
-									<img src="https://carringtonplaceretirement.ca/wp-content/uploads/2022/02/3.jpg" alt="portfolio img">
-								</a>
-							</div>
-							<div class="iso-box html property mobile col-md-4 col-sm-4">
-								<a href="https://carringtonplaceretirement.ca/wp-content/uploads/2022/02/4.jpg"
-								   data-lightbox-gallery="portfolio-gallery">
-									<img src="https://carringtonplaceretirement.ca/wp-content/uploads/2022/02/4.jpg" alt="portfolio img">
-								</a>
-							</div>
-							<div class="iso-box html residents mobile col-md-4 col-sm-4">
-								<a href="https://carringtonplaceretirement.ca/wp-content/uploads/2023/12/20231003_141621-scaled.jpg"
-								   data-lightbox-gallery="portfolio-gallery">
-									<img src="https://carringtonplaceretirement.ca/wp-content/uploads/2023/12/20231003_141621-scaled.jpg" alt="portfolio img">
-								</a>
-							</div>
-							<div class="iso-box html residents mobile col-md-4 col-sm-4">
-								<a href="https://carringtonplaceretirement.ca/wp-content/uploads/2023/12/20231003_141639-scaled.jpg"
-								   data-lightbox-gallery="portfolio-gallery">
-									<img src="https://carringtonplaceretirement.ca/wp-content/uploads/2023/12/20231003_141639-scaled.jpg" alt="portfolio img">
-								</a>
-							</div>
-							<div class="iso-box html activities mobile col-md-4 col-sm-4">
-								<a href="https://carringtonplaceretirement.ca/wp-content/uploads/2023/01/320390121_902537727766408_5878220622838026899_n.jpg"
-								   data-lightbox-gallery="portfolio-gallery">
-									<img src="https://carringtonplaceretirement.ca/wp-content/uploads/2023/01/320390121_902537727766408_5878220622838026899_n.jpg" alt="portfolio img">
-								</a>
-							</div>
-							<div class="iso-box html activities mobile col-md-4 col-sm-4">
-								<a href="https://carringtonplaceretirement.ca/wp-content/uploads/2023/02/20230207_150527-scaled.jpg"
-								   data-lightbox-gallery="portfolio-gallery">
-									<img src="https://carringtonplaceretirement.ca/wp-content/uploads/2023/02/20230207_150527-scaled.jpg" alt="portfolio img">
-								</a>
-							</div>
-							<div class="iso-box html activities mobile col-md-4 col-sm-4">
-								<a href="https://carringtonplaceretirement.ca/wp-content/uploads/2023/01/319363002_1221534405376013_7712259295542594135_n.jpg"
-								   data-lightbox-gallery="portfolio-gallery">
-									<img src="https://carringtonplaceretirement.ca/wp-content/uploads/2023/01/319363002_1221534405376013_7712259295542594135_n.jpg" alt="portfolio img">
+									<img ${attribute}="${filename}" alt="portfolio img">
 								</a>
 							</div>
                			</div>
@@ -105,7 +60,9 @@ https://templatemo.com/tm-465-alpha
 		</div>
 	</div>
 </section>
-
+<script>
+	const portfolio = Portfolio()
+</script>
 <!-- javascript js comes here -->
 <script src="https://examan007.github.io/portfolio/js/jquery.js"></script>
 <script src="https://examan007.github.io/portfolio/js/bootstrap.min.js"></script>
@@ -115,11 +72,10 @@ https://templatemo.com/tm-465-alpha
 <script src="https://examan007.github.io/portfolio/js/imagesloaded.min.js"></script>
 <script src="https://examan007.github.io/portfolio/js/nivo-lightbox.min.js"></script>
 <script src="https://examan007.github.io/portfolio/js/wow.min.js"></script>
-<script src="https://examan007.github.io/portfolio/js/custom.js"></script>
-<script src="js/portfolio.js"></script>
+<script src="js/custom.js"></script>
 <script>
-	Portfolio().onload()
 </script>
+
 
 </body>
 </html>

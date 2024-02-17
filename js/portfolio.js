@@ -44,6 +44,62 @@ var Portfolio = function () {
         })
     })
 
+    function loadResources(data, type) {
+        const temp = 'template-property'
+        const template = document.querySelectorAll('.' + temp)[0]
+        const attribute = 'src'
+        const array = data[type].reverse()
+        array.forEach((filename) => {
+            function createblock() {
+                const block =  template.cloneNode(true)
+                block.innerHTML = eval('`' + block.innerHTML + '`')
+                block.classList.remove(temp)
+                block.classList.add(type)
+                template.parentNode.appendChild(block)
+            }
+            createblock()
+            console.log(filename)
+        })
+    }
+    function getResources() {
+        const data = ResourceImages()
+        loadResources(data, 'property')
+        loadResources(data, 'residents')
+        loadResources(data, 'activities')
+    }
+    function getResourcesRemote() {
+        const url = 'data/resources.json';
+        fetch(url)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            //console.log("Resources: " + JSON.stringify(data))
+            loadResources(data, 'property')
+            loadResources(data, 'residents')
+            loadResources(data, 'activities')
+            window.setTimeout(() => {
+               window.setTimeout(setHeight, 1000)
+               CustomObj()
+            }, 1000)
+         })
+          .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+          });
+    }
+
+    document.addEventListener('DOMContentLoaded', function(event) {
+        getResources()
+        CustomObj()
+        window.setTimeout(() => {
+            portfolio.setHeight()
+        }, 3000)
+    });
+
+
 return {
         show: function () {
             const dims = getWindowDimensions()
@@ -51,7 +107,10 @@ return {
             return dims
         },
         onload: function () {
-            window.setTimeout(setHeight, 1000)
+            getResources()
+        },
+        setHeight: function () {
+            setHeight()
         }
     }
 }
