@@ -99,7 +99,7 @@ var Portfolio = function () {
         CustomObj()
         window.setTimeout(() => {
             portfolio.setHeight()
-        }, 3000)
+        }, 1000)
     });
 
 return {
