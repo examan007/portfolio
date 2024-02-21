@@ -120,7 +120,7 @@ var Portfolio = function (flag, input) {
         })
     })
 
-    function loadResources(data, type) {
+    function loadResources(data, type, flag) {
         const temp = 'template-property'
         const template = document.querySelectorAll('.' + temp)[0]
         const attribute = 'src'
@@ -137,12 +137,15 @@ var Portfolio = function (flag, input) {
             createblock()
             //console.log(filename)
         })
+        if (flag) {
+            template.parentNode.removeChild(template)
+        }
     }
     function getResources() {
         const data = ResourceImages()
-        loadResources(data, 'property')
-        loadResources(data, 'residents')
-        loadResources(data, 'activities')
+        loadResources(data, 'property', false)
+        loadResources(data, 'residents', false)
+        loadResources(data, 'activities', true)
     }
     function getResourcesRemote() {
         const url = 'data/resources.json';
