@@ -42,9 +42,9 @@ ResourceImages = function getResourceImages() {
       "activities": [
         "https://carringtonplaceretirement.ca/wp-content/uploads/2023/01/319363002_1221534405376013_7712259295542594135_n.jpg",
         "https://carringtonplaceretirement.ca/wp-content/uploads/2024/02/IMG_20231025_113257042-scaled.jpg",
+        "https://carringtonplaceretirement.ca/wp-content/uploads/2024/02/IMG_20230728_104207920-scaled.jpg",
         "https://carringtonplaceretirement.ca/wp-content/uploads/2024/02/IMG_20231130_165315.jpg",
         "https://carringtonplaceretirement.ca/wp-content/uploads/2023/01/Pen-Pal-Corresponence-2023.jpg",
-        "https://carringtonplaceretirement.ca/wp-content/uploads/2024/02/IMG_20230728_104207920-scaled.jpg",
         "https://carringtonplaceretirement.ca/wp-content/uploads/2023/02/20230207_150527-scaled.jpg",
         "https://carringtonplaceretirement.ca/wp-content/uploads/2023/01/320390121_902537727766408_5878220622838026899_n.jpg",
         "https://carringtonplaceretirement.ca/wp-content/uploads/2023/12/20231003_141611-scaled.jpg"
