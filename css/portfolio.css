@@ -21,3 +21,10 @@
 .property {
     display: block;
 }
+
+.nivo-lightbox-overlay {
+    height: 800px;
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Apply transition */
+    transform: translateY(-284px);
+    z-index: 10000;
+}
