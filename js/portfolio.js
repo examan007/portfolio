@@ -50,20 +50,22 @@ var Portfolio = function (flag, input) {
             LastData = data
         }
         try {
+            const padding = 100
             const obj = document.querySelectorAll('.nivo-lightbox-overlay')[0]
-            obj.style.height = (data.height - 100) + "px"
+            obj.style.height = (data.height - padding) + "px"
             function getScroll () {
+                const trans = getOrElse(data.options.translateY, 0)
                 const max = data.offset + TotalHeight - data.height
                 if (data.scroll > max) {
-                    return max
+                    return max + padding / 2
                 } else
                 if (data.scroll < data.offset) {
-                    return data.offset
+                    return data.offset - trans
                 } else {
-                    return data.scroll
+                    return data.scroll - trans
                 }
             }
-            const top = (getScroll() - getOrElse(data.options.translateY, 0)) + "px"
+            const top = getScroll() + "px"
             obj.style.top = top
             console.log("top: " + top)
         } catch (e) {
@@ -122,6 +124,7 @@ var Portfolio = function (flag, input) {
         const temp = 'template-property'
         const template = document.querySelectorAll('.' + temp)[0]
         const attribute = 'src'
+        const tag = 'img'
         const array = data[type].reverse()
         array.forEach((filename) => {
             function createblock() {
