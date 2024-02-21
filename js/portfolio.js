@@ -1,7 +1,7 @@
 var Portfolio = function (flag) {
     var TotalHeight = 0
     var StartOfPortfolio = 0
-    var console = {
+    var consolex = {
         log: function(msg) {},
     }
     function getWindowDimensions () {
