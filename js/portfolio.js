@@ -47,7 +47,9 @@ var Portfolio = function (flag) {
                     return data.scroll
                 }
             }
-            obj.style.top = getScroll() + "px"
+            const top = (getScroll() - 400) + "px"
+            obj.style.top = top
+            console.log("top: " + top)
         } catch (e) {
             console.log(e.toString())
         }
