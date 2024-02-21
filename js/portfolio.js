@@ -35,7 +35,7 @@ var Portfolio = function (flag) {
         }
         try {
             const obj = document.querySelectorAll('.nivo-lightbox-overlay')[0]
-            obj.style.height = data.height + "px"
+            obj.style.height = (data.height - 100) + "px"
             function getScroll () {
                 const max = data.offset + TotalHeight - data.height
                 if (data.scroll > max) {
@@ -47,7 +47,7 @@ var Portfolio = function (flag) {
                     return data.scroll
                 }
             }
-            const top = (getScroll() - 400) + "px"
+            const top = (getScroll() - 200) + "px"
             obj.style.top = top
             console.log("top: " + top)
         } catch (e) {
