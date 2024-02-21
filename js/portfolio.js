@@ -176,7 +176,7 @@ var Portfolio = function (flag) {
             var element = document.getElementById('portfolio');
             var rect = element.getBoundingClientRect();
 
-            StartOfPortfolio = rect.top - 500
+            StartOfPortfolio = rect.top
             console.log('Top: ' + rect.top);
             console.log('Left: ' + rect.left);
             console.log('Bottom: ' + rect.bottom);
