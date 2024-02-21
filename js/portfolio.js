@@ -50,14 +50,15 @@ var Portfolio = function (flag, input) {
             LastData = data
         }
         try {
-            const padding = 100
+            const padding = getOrElse(data.options.padding, 0)
+            const tailing = getOrElse(data.options.tailing, padding / 2)
             const obj = document.querySelectorAll('.nivo-lightbox-overlay')[0]
             obj.style.height = (data.height - padding) + "px"
             function getScroll () {
                 const trans = getOrElse(data.options.translateY, 0)
-                const max = data.offset + TotalHeight - data.height
+                const max = data.offset + TotalHeight - data.height + tailing
                 if (data.scroll > max) {
-                    return max + padding / 2
+                    return max
                 } else
                 if (data.scroll < data.offset) {
                     return data.offset - trans
