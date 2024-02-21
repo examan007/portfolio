@@ -1,9 +1,17 @@
-var Portfolio = function (flag) {
+var Portfolio = function (flag, input) {
     var TotalHeight = 0
     var StartOfPortfolio = 0
     var consolex = {
         log: function(msg) {},
     }
+    function getOrElse(value, defvalue) {
+        if (typeof(value) === 'undefined') {
+            return defvalue
+        } else {
+            return value
+        }
+    }
+    const options = getOrElse(input, {})
     function getWindowDimensions () {
         const width = window.innerWidth
         const height = window.innerHeight
@@ -20,8 +28,16 @@ var Portfolio = function (flag) {
             data: message
         }), "*");
     }
-    function sendToPortfolio(messageobj) {
-        const message = JSON.stringify(messageobj)
+    function sendToPortfolio() {
+        const message = JSON.stringify({
+           operation: 'scroll',
+           data: {
+              height: getWindowDimensions().height,
+              scroll: window.scrollY,
+              offset: StartOfPortfolio,
+              options: options
+           }
+        })
         var objectElement = document.getElementById('portfolio');
         var embeddedWindow = objectElement.contentWindow;
         embeddedWindow.postMessage(message, '*')
@@ -47,7 +63,7 @@ var Portfolio = function (flag) {
                     return data.scroll
                 }
             }
-            const top = (getScroll() - 300) + "px"
+            const top = (getScroll() - getOrElse(data.options.translateY, 0)) + "px"
             obj.style.top = top
             console.log("top: " + top)
         } catch (e) {
@@ -63,14 +79,7 @@ var Portfolio = function (flag) {
                 if (message.operation === 'resize') {
                     const portfolio = document.getElementById('portfolio')
                     portfolio.style.height = message.data.height + 'px'
-                    sendToPortfolio({
-                        operation: 'scroll',
-                        data: {
-                           height: getWindowDimensions().height,
-                           scroll: document.documentElement.scrollTop || document.body.scrollTop,
-                           offset: StartOfPortfolio
-                        }
-                    })
+                    sendToPortfolio()
                 } else
                 if (message.operation === 'scroll') {
                     console.log("scroll event.data: " + event.data)
@@ -201,14 +210,7 @@ var Portfolio = function (flag) {
                 console.log('Scrolling detected!');
                 console.log('Scroll position X: ' + window.scrollX);
                 console.log('Scroll position Y: ' + window.scrollY);
-                    sendToPortfolio({
-                        operation: 'scroll',
-                        data: {
-                           height: getWindowDimensions().height,
-                           scroll: window.scrollY,
-                           offset: StartOfPortfolio
-                        }
-                    })
+                sendToPortfolio()
             })
     }
 
