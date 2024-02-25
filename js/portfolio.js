@@ -201,6 +201,10 @@ var Portfolio = function (flag, input) {
             console.log('Right: ' + rect.right);
             console.log('Width: ' + rect.width);
             console.log('Height: ' + rect.height);
+
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            });
         })
         try {
             document.getElementById('portfolio').
@@ -221,6 +225,11 @@ var Portfolio = function (flag, input) {
             })
     }
 
+    function checkLoginState() {
+      FB.getLoginStatus(function(response) {
+        statusChangeCallback(response);
+      });
+    }
 return {
         show: function () {
             const dims = getWindowDimensions()
@@ -232,6 +241,9 @@ return {
         },
         setHeight: function () {
             setHeight()
+        },
+        checkLoginState: function () {
+            checkLoginState()
         }
     }
 }
