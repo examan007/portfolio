@@ -12,6 +12,7 @@ var Portfolio = function (flag, input) {
         }
     }
     const options = getOrElse(input, {})
+    const parent = getOrElse(options.ParentName, 'portfolio')
     function getWindowDimensions () {
         const width = window.innerWidth
         const height = window.innerHeight
@@ -25,7 +26,8 @@ var Portfolio = function (flag, input) {
         TotalHeight = message.height
         window.parent.postMessage(JSON.stringify({
             operation: 'resize',
-            data: message
+            data: message,
+            parent: parent
         }), "*");
     }
     function sendToPortfolio() {
@@ -80,7 +82,15 @@ var Portfolio = function (flag, input) {
                 var message = JSON.parse(event.data)
                 console.log("Received message: [" + event.data + "]")
                 if (message.operation === 'resize') {
-                    const portfolio = document.getElementById('portfolio')
+                    function getParentName() {
+                        const parent = message.parent
+                        if (typeof(parent) === 'undefined') {
+                            return 'portfolio'
+                        } else {
+                            return parent
+                        }
+                    }
+                    const portfolio = document.getElementById(getParentName())
                     portfolio.style.height = message.data.height + 'px'
                     sendToPortfolio()
                 } else
@@ -95,7 +105,7 @@ var Portfolio = function (flag, input) {
     }
     window.addEventListener("message", receiveMessage, false)
     function setHeight() {
-        const gallery = document.getElementById('portfolio')
+        const gallery = document.getElementById(parent)
         const height = gallery.clientHeight
         console.log("height: " + height)
         sendMessage({ height: height})
@@ -174,11 +184,16 @@ var Portfolio = function (flag, input) {
 
     if (flag) {
         document.addEventListener('DOMContentLoaded', function(event) {
-            getResources()
+            const loadfunc = getOrElse(options.LoadFunc, getResources)
+            loadfunc()
         });
 
         window.addEventListener('load', function(event) {
-            CustomObj()
+            try {
+                CustomObj()
+            } catch (e) {
+                console.log(e.toString())
+            }
             window.setTimeout(() => {
                 setHeight()
             }, 1000)
@@ -202,9 +217,6 @@ var Portfolio = function (flag, input) {
             console.log('Width: ' + rect.width);
             console.log('Height: ' + rect.height);
 
-            FB.getLoginStatus(function(response) {
-                statusChangeCallback(response);
-            });
         })
         try {
             document.getElementById('portfolio').
@@ -225,11 +237,6 @@ var Portfolio = function (flag, input) {
             })
     }
 
-    function checkLoginState() {
-      FB.getLoginStatus(function(response) {
-        statusChangeCallback(response);
-      });
-    }
 return {
         show: function () {
             const dims = getWindowDimensions()
@@ -242,8 +249,9 @@ return {
         setHeight: function () {
             setHeight()
         },
-        checkLoginState: function () {
-            checkLoginState()
+        loadPosts: function (data) {
+            loadResources(data, 'property', true)
         }
+
     }
 }
