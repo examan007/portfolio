@@ -1,7 +1,7 @@
 var Portfolio = function (flag, input) {
     var TotalHeight = 0
     var StartOfPortfolio = 0
-    var consolex = {
+    var console = {
         log: function(msg) {},
     }
     function getOrElse(value, defvalue) {

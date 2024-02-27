@@ -1,4 +1,7 @@
 var SocialFeed = function () {
+    var console = {
+        log: function(msg) {},
+    }
     const portfolio = Portfolio(true, {
         "ParentName": "social",
         "LoadFunc": load
