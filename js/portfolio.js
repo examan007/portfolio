@@ -60,7 +60,7 @@ var Portfolio = function (flag, input) {
             const tailing = getOrElse(data.options.tailing, padding / 2)
             const translatey = getOrElse(data.options.translateY, 0)
             const obj = document.querySelectorAll(scrolltarget)[0]
-            //obj.style.height = (data.height - padding) + "px"
+            obj.style.height = (data.height - padding) + "px"
             function getScroll () {
                 const trans = translatey
                 const max = data.offset + TotalHeight - data.height + tailing
@@ -75,8 +75,8 @@ var Portfolio = function (flag, input) {
             }
             const top = getScroll() + "px"
             obj.style.top = top
-            obj.style.transform = 'translate-y(' + translatey + 'px)'
-            console.log("top: " + top + " translateY: " + translatey +" scroll map: " + scrollmap)
+            //obj.style.transform = 'translate-y(' + translatey + 'px)'
+            console.log("top: " + top + " translateY: " + translatey +" scroll map: " + scrollmap + " target: " + scrolltarget)
         } catch (e) {
             console.log("scroll error: " + e.toString())
         }
@@ -194,9 +194,11 @@ var Portfolio = function (flag, input) {
                 setHeight()
             }, 1000)
         });
-            document.getElementById('portfolio').
-                addEventListener("click", (element)=> {
-                    console.log("clicked: " + element.outerHTML)
+            document.querySelector('#social object').
+                addEventListener("click", (event)=> {
+                    console.log("clicked: " + this.outerHTML)
+                    event.preventDefault();
+                    event.stopPropagation();
                     setHeight()
                 })
 

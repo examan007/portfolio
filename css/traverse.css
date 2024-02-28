@@ -12,6 +12,9 @@
     width: 100%;
 }
 
-.sf-container {
+.tm-portfolio {
+    position: absolute !important;
     display: block;
+    top: 0px;
+    width: 100%;
 }
