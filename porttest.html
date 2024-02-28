@@ -23,15 +23,17 @@
     -->
 </head>
 <body style="overflow: hidden;">
+<div class="social-panels">
+    <object id="panel0" class="scroll-target" type="text/html" style="=width: 100%; max-width: 300px !important;"
+            data="https://test.neolation.com/portfolio/socialmine.html?parent=panel0"></object>
+    <object id="panel1" class="scroll-target" type="text/html" style="=width: 100%; max-width: 300px !important;"
+            data="https://test.neolation.com/portfolio/socialmine.html?parent=panel1"></object>
+    <object id="panel2" class="scroll-target" type="text/html" style="=width: 100%; max-width: 300px !important;"
+            data="https://test.neolation.com/portfolio/socialmine.html?parent=panel2"></object>
+</div>
     <script>
-       const portfolio = Portfolio(false, { translateY: 68, padding: 0, tailing: 0, ScrollMap: "social" })
-       portfolio.show()
+        Traversion().loadClients()
     </script>
-    <object id="social" class="scroll-target" type="text/html" style="=width: 100%; max-width: 500px !important;"
-            data="https://test.neolation.com/portfolio/socialmine.html"></object>
-<script>
-    portfolio.show()
-</script>
 </body>
 </html>
 

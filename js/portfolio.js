@@ -33,7 +33,7 @@ var Portfolio = function (flag, input) {
             parent: parent
         }), "*");
     }
-    function sendToPortfolio() {
+    function sendToPortfolio(scrollinputmap) {
         const message = JSON.stringify({
            operation: 'scroll',
            data: {
@@ -44,7 +44,7 @@ var Portfolio = function (flag, input) {
            }
         })
 
-        var objectElement = document.getElementById(scrollmap);
+        var objectElement = document.getElementById(scrollinputmap);
         var embeddedWindow = objectElement.contentWindow;
         embeddedWindow.postMessage(message, '*')
     }
@@ -60,7 +60,7 @@ var Portfolio = function (flag, input) {
             const tailing = getOrElse(data.options.tailing, padding / 2)
             const translatey = getOrElse(data.options.translateY, 0)
             const obj = document.querySelectorAll(scrolltarget)[0]
-            obj.style.height = (data.height - padding) + "px"
+            obj.style.height = (data.height - padding + translatey) + "px"
             function getScroll () {
                 const trans = translatey
                 const max = data.offset + TotalHeight - data.height + tailing
@@ -89,17 +89,20 @@ var Portfolio = function (flag, input) {
                 if (message.operation === 'resize' && ! flag) {
                     console.log("Received message: [" + event.data + "]")
                     function getParentName() {
-                        const parent = message.parent
-                        if (typeof(parent) === 'undefined') {
+                        const parentval = message.parent
+                        if (typeof(parentval) === 'undefined') {
                             return 'portfolio'
                         } else {
-                            return parent
+                            return parentval
                         }
                     }
-                    const portfolio = document.getElementById(getParentName())
-                    portfolio.style.height = message.data.height + 'px'
-                    portfolio.style.overflow = 'hidden'
-                    sendToPortfolio()
+                    const parentname = getParentName()
+                    if (parentname === parent) {
+                        const portfolio = document.getElementById(parentname)
+                        portfolio.style.height = message.data.height + 'px'
+                        portfolio.style.overflow = 'hidden'
+                        sendToPortfolio(parentname)
+                    }
                 } else
                 if (message.operation === 'scroll' && flag) {
                     console.log("scroll event.data: " + event.data)
@@ -112,10 +115,14 @@ var Portfolio = function (flag, input) {
     }
     window.addEventListener("message", receiveMessage, false)
     function setHeight() {
-        const gallery = document.getElementById(parent)
-        const height = gallery.clientHeight
-        console.log("set height: " + height)
-        sendMessage({ height: height})
+        try {
+            const gallery = document.getElementById('portfolio')
+            const height = gallery.clientHeight
+            console.log("set height: " + height + " parent: " + parent)
+            sendMessage({ height: height})
+        } catch (e) {
+            console.log("set height for: " + parent + " " + e.toString())
+        }
     }
 
     var elements = document.querySelectorAll('.opc-main-bg')
@@ -123,7 +130,7 @@ var Portfolio = function (flag, input) {
         console.log("register: " + element.outerHTML)
         element.addEventListener("click", ()=> {
             console.log("clicked: " + element.outerHTML)
-            window.setTimeout(setHeight, 100)
+            //window.setTimeout(setHeight, 100)
         })
     })
 
@@ -169,8 +176,12 @@ var Portfolio = function (flag, input) {
             loadResources(data, 'residents')
             loadResources(data, 'activities')
             window.setTimeout(() => {
-               window.setTimeout(setHeight, 1000)
-               CustomObj()
+               //window.setTimeout(setHeight, 1000)
+               try {
+                CustomObj()
+               } catch (e) {
+                console.log(e.toString())
+               }
             }, 1000)
          })
           .catch(error => {
@@ -179,27 +190,30 @@ var Portfolio = function (flag, input) {
     }
 
     if (flag) {
+        console.log("set height initialize : " + parent)
+
         document.addEventListener('DOMContentLoaded', function(event) {
             const loadfunc = getOrElse(options.LoadFunc, getResources)
             loadfunc()
         });
 
         window.addEventListener('load', function(event) {
+            console.log("set height timer, parent: " + parent)
+            window.setTimeout(() => {
+                setHeight()
+            }, 1000)
             try {
                 CustomObj()
             } catch (e) {
                 console.log(e.toString())
             }
-            window.setTimeout(() => {
-                setHeight()
-            }, 1000)
         });
-            document.querySelector('#social object').
+            document.querySelector('#social iframe').
                 addEventListener("click", (event)=> {
                     console.log("clicked: " + this.outerHTML)
                     event.preventDefault();
                     event.stopPropagation();
-                    setHeight()
+                    //setHeight()
                 })
 
     } else {
@@ -236,7 +250,7 @@ var Portfolio = function (flag, input) {
                 console.log('Scrolling detected!');
                 console.log('Scroll position X: ' + window.scrollX);
                 console.log('Scroll position Y: ' + window.scrollY);
-                sendToPortfolio()
+                sendToPortfolio(scrollmap)
             })
         } catch (e) {
             console.log(e.toString())

@@ -3,11 +3,29 @@
     height: 5000px;
 }
 
-#social {
+#panel0 {
     height: 100%;
     width: 100%;
 }
-#social object {
+#panel0 object {
+    height: 100%;
+    width: 100%;
+}
+
+#panel1 {
+    height: 100%;
+    width: 100%;
+}
+#panel1 object {
+    height: 100%;
+    width: 100%;
+}
+
+#panel2 {
+    height: 100%;
+    width: 100%;
+}
+#panel2r object {
     height: 100%;
     width: 100%;
 }
@@ -17,4 +35,10 @@
     display: block;
     top: 0px;
     width: 100%;
+}
+
+.social-panels {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }

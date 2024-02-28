@@ -1,21 +1,17 @@
 var Traversion = function () {
+    function getParentName() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const parentValue = urlParams.get('parent');
+        console.log("Parent value:", parentValue);
+        return parentValue
+    }
 
-    const portfolio = Portfolio(true, {
-        "ParentName": "social",
-        "LoadFunc": load,
-        "ScrollTarget": ".tm-portfolio",
-        "translateY": 200 + 'px'
-    })
     function load() {
         //portfolio.loadPosts(data)
     }
     const data = {
           "property": []
     }
-
-    window.setTimeout(() => {
-        portfolio.setHeight()
-    }, 3000)
 
     function traverseNodes(element) {
         // Reference the current node
@@ -57,5 +53,21 @@ var Traversion = function () {
     //traverse()
 
     return {
+        loadClients: function () {
+            Portfolio(false, { translateY: 68, padding: 0, tailing: 0, ScrollMap: "panel0", ParentName: "panel0" })
+            Portfolio(false, { translateY: 868, padding: 348, tailing: 0, ScrollMap: "panel1", ParentName: "panel1" })
+            Portfolio(false, { translateY: 1268, padding: 128, tailing: 0, ScrollMap: "panel2", ParentName: "panel2" })
+        },
+        loadServer: function () {
+            const portfolio = Portfolio(true, {
+                "ParentName": getParentName(),
+                "LoadFunc": load,
+                "ScrollTarget": ".tm-portfolio",
+                "translateY": 200 + 'px'
+            })
+            window.setTimeout(() => {
+                portfolio.setHeight()
+            }, 3000)
+        }
     }
 }
