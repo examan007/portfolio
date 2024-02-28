@@ -1,0 +1,17 @@
+
+#portfolio {
+    height: 5000px;
+}
+
+#social {
+    height: 100%;
+    width: 100%;
+}
+#social object {
+    height: 100%;
+    width: 100%;
+}
+
+.sf-container {
+    display: block;
+}
