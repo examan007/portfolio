@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #portfolio {
+            height: 750px;
+            width: 100%;
+            z-index: 100;
+        }
+        #portfolio object {
+            z-index: 100;
+            height: 100%;
+            width: 100%;
+         }
+    </style>
+    <script>
+    </script>
+</head>
+<body>
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '742632417815975',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v12.0'
+    });
+
+    FB.AppEvents.logPageView();
+
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+<fb:login-button
+        scope="public_profile,email"
+        onlogin="checkLoginState();">
+</fb:login-button>
+
+<div id="portfolio">
+    <object data="https://www.facebook.com/plugins/page.php?
+    href=https://www.facebook.com%2FCarringtonPlaceRetirement&
+    height=1000&
+    width=500&
+    tabs=timeline&
+    small_header=true&
+    adapt_container_width=true&
+    hide_cover=true&
+    show_facepile=false&
+    appId"></object>
+</div>
+
+<script>
+</script>
+
+
+</body>
+</html>

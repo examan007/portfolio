@@ -1,0 +1,14 @@
+
+#portfolio {
+    height: 100vh;
+}
+
+.sf-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.responsive-image {
+    max-width: 360px;
+}
