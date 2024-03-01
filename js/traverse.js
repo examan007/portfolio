@@ -70,7 +70,7 @@ var Traversion = function () {
                 if (index < 3) {
                     const start = (0 - metrics[index].start) * scale - index * 60
                     const height = metrics[index].height * scale
-                    const padding = (0 - (height + viewheight - start))
+                    const padding = viewheight - height - metrics[0].start
                     const name = "panel" + index
                     const options = {
                         translateY: (0 -  start),
