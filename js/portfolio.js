@@ -133,7 +133,7 @@ var Portfolio = function (flag, input) {
                     return 0
                 }
             }
-            const height = gallery.clientHeight - getTranslateY()
+            const height = gallery.clientHeight - getTranslateY() + 1
             console.log("set height: " + height + " parent: " + parent)
             sendMessage({
                 height: height,
@@ -227,6 +227,7 @@ var Portfolio = function (flag, input) {
                 console.log(e.toString())
             }
         });
+        try {
             document.querySelector('#social iframe').
                 addEventListener("click", (event)=> {
                     console.log("clicked: " + this.outerHTML)
@@ -234,6 +235,9 @@ var Portfolio = function (flag, input) {
                     event.stopPropagation();
                     //setHeight()
                 })
+        } catch (e) {
+            console.log("adding click: " + e.toString())
+        }
 
     } else {
         try {
@@ -285,8 +289,8 @@ return {
         onload: function () {
             getResources()
         },
-        setHeight: function () {
-            setHeight()
+        setHeight: function (flag) {
+            setHeight(flag)
         },
         loadPosts: function (data) {
             loadResources(data, 'property', true)

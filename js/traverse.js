@@ -86,17 +86,20 @@ var Traversion = function () {
                 }
             }
             loadPortfolio(0, 68 / metrics[0].start)
+            return this
         },
-        loadServer: function () {
+        loadServer: function (scrolltarget) {
             const portfolio = Portfolio(true, {
                 "ParentName": getParentName(),
                 "LoadFunc": load,
-                "ScrollTarget": ".tm-portfolio",
-                "translateY": 200 + 'px'
+                "ScrollTarget": scrolltarget,
+                "translateY": 0
             })
             window.setTimeout(() => {
+                console.log("set height: loadServer timer delay; parent: " + getParentName())
                 portfolio.setHeight()
             }, 3000)
+            return this
         }
     }
 }
