@@ -5,7 +5,16 @@ var Traversion = function () {
         console.log("Parent value:", parentValue);
         return parentValue
     }
-
+    function getOrElse(value, defvalue) {
+        if (value === null) {
+            return defvalue
+        } else
+        if (typeof(value) === 'undefined') {
+            return defvalue
+        } else {
+            return value
+        }
+    }
     function load() {
         //portfolio.loadPosts(data)
     }
@@ -88,7 +97,7 @@ var Traversion = function () {
             loadPortfolio(0, 68 / metrics[0].start)
             return this
         },
-        loadServer: function (scrolltarget) {
+        loadServer: function (scrolltarget, delay) {
             const portfolio = Portfolio(true, {
                 "ParentName": getParentName(),
                 "LoadFunc": load,
@@ -98,7 +107,7 @@ var Traversion = function () {
             window.setTimeout(() => {
                 console.log("set height: loadServer timer delay; parent: " + getParentName())
                 portfolio.setHeight()
-            }, 3000)
+            }, getOrElse(delay, 3000))
             return this
         }
     }
