@@ -50,13 +50,42 @@ var Traversion = function () {
         }
     }
 
+    function getWindowDimensions () {
+        const width = window.innerWidth
+        const height = window.innerHeight
+        //console.log(`Window size is ${width}x${height}`);
+        return {
+            width: width,
+            height: height,
+        }
+    }
+
     //traverse()
 
     return {
         loadClients: function () {
-            Portfolio(false, { translateY: 68, padding: 0, tailing: 0, ScrollMap: "panel0", ParentName: "panel0" })
-            Portfolio(false, { translateY: 868, padding: 348, tailing: 0, ScrollMap: "panel1", ParentName: "panel1" })
-            Portfolio(false, { translateY: 1268, padding: 128, tailing: 0, ScrollMap: "panel2", ParentName: "panel2" })
+            const metrics = MetricList()
+            const viewheight = getWindowDimensions().height
+            function loadPortfolio(index, scale) {
+                if (index < 3) {
+                    const start = (0 - metrics[index].start) * scale - index * 60
+                    const height = metrics[index].height * scale
+                    const padding = (0 - (height + viewheight - start))
+                    const name = "panel" + index
+                    const options = {
+                        translateY: (0 -  start),
+                        padding: padding,
+                        tailing: 0,
+                        offset: start,
+                        ScrollMap: name,
+                        ParentName: name
+                    }
+                    console.log(JSON.stringify(options))
+                    Portfolio(false, options)
+                    loadPortfolio(index + 1, scale + (index + 1) * 0.0062)
+                }
+            }
+            loadPortfolio(0, 68 / metrics[0].start)
         },
         loadServer: function () {
             const portfolio = Portfolio(true, {

@@ -222,7 +222,7 @@ var Portfolio = function (flag, input) {
                 var element = document.getElementById(scrollmap);
                 var rect = element.getBoundingClientRect();
 
-                StartOfPortfolio = rect.top
+                StartOfPortfolio = getOrElse(options.offset, rect.top)
                 console.log('Top: ' + rect.top);
                 console.log('Left: ' + rect.left);
                 console.log('Bottom: ' + rect.bottom);
@@ -271,7 +271,11 @@ return {
         },
         loadPosts: function (data) {
             loadResources(data, 'property', true)
+        },
+        sendScroll: function () {
+            sendToPortfolio(scrollmap)
         }
+
 
     }
 }
