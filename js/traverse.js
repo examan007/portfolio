@@ -1,4 +1,7 @@
 var Traversion = function () {
+    var console = {
+        log: function(msg) {},
+    }
     function getParentName() {
         const urlParams = new URLSearchParams(window.location.search);
         const parentValue = urlParams.get('parent');

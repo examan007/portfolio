@@ -1,7 +1,7 @@
 var Portfolio = function (flag, input) {
     var TotalHeight = 0
     var StartOfPortfolio = 0
-    var consolex = {
+    var console = {
         log: function(msg) {},
     }
     function getOrElse(value, defvalue) {
@@ -46,10 +46,13 @@ var Portfolio = function (flag, input) {
               options: options
            }
         })
-
-        var objectElement = document.getElementById(scrollinputmap);
-        var embeddedWindow = objectElement.contentWindow;
-        embeddedWindow.postMessage(message, '*')
+        try {
+            var objectElement = document.getElementById(scrollinputmap);
+            var embeddedWindow = objectElement.contentWindow;
+            embeddedWindow.postMessage(message, '*')
+        } catch (e) {
+            console.log("scroll map: " + scrollinputmap + " " + e.toString())
+        }
     }
     var LastData = null
     function positionLightBox(data) {
@@ -121,26 +124,47 @@ var Portfolio = function (flag, input) {
         }
     }
     window.addEventListener("message", receiveMessage, false)
+    var GalleryHeight = 20000
     function setHeight(noscroll) {
         try {
-            const obj = document.querySelectorAll(scrolltarget)[0]
-            const gallery = obj // document.getElementById('portfolio')
+            const selector = getOrElse(options.ScrollTarget, null)
+            function getGallery() {
+                if (selector === null) {
+                    return document.getElementById(parent)
+                } else {
+                    return document.querySelectorAll(selector)[0]
+                }
+            }
+            const gallery = getGallery()
             function getTranslateY() {
                 try {
                     const value = LastData.options.translateY
-                    return value
+                    if (isNaN(value)) {
+                        return 0
+                    } else {
+                        return value
+                    }
                 } catch (e) {
                     return 0
                 }
             }
-            const height = gallery.clientHeight - getTranslateY() + 1
-            console.log("set height: " + height + " parent: " + parent)
+            function getHeight() {
+                const height = gallery.clientHeight - getTranslateY() + 1
+                if (height < GalleryHeight) {
+                    GalleryHeight = height
+                    return height
+                } else {
+                    return GalleryHeight
+                }
+            }
+            const height = getHeight()
+            console.log("set height: " + height + " parent: " + parent + " scroll target: " + selector)
             sendMessage({
                 height: height,
                 noscroll: getOrElse(noscroll, false),
             })
         } catch (e) {
-            console.log("set height for: " + parent + " " + e.toString())
+            console.log("set height for: " + parent + " scroll target: " + scrolltarget + "" + e.toString())
         }
     }
 
@@ -218,13 +242,15 @@ var Portfolio = function (flag, input) {
 
         window.addEventListener('load', function(event) {
             console.log("set height timer, parent: " + parent)
-            window.setTimeout(() => {
-                //setHeight()
-            }, 1000)
-            try {
-                CustomObj()
-            } catch (e) {
-                console.log(e.toString())
+            if (parent === 'portfolio') {
+                window.setTimeout(() => {
+                    setHeight()
+                }, 1000)
+                try {
+                    CustomObj()
+                } catch (e) {
+                    console.log(e.toString())
+                }
             }
         });
         try {
@@ -266,6 +292,7 @@ var Portfolio = function (flag, input) {
         } catch (e) {
             console.log(e.toString() + JSON.stringify(options))
         }
+        if (getOrElse(options.noscroll, false) === false)
         try {
             window.addEventListener('scroll', function(event) {
                 // Function to handle scroll event
