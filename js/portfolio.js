@@ -150,7 +150,7 @@ var Portfolio = function (flag, input) {
             }
             function getHeight() {
                 const height = gallery.clientHeight - getTranslateY() + 1
-                if (height < GalleryHeight) {
+                if (height < GalleryHeight || parent !== 'social') {
                     GalleryHeight = height
                     return height
                 } else {
