@@ -149,7 +149,14 @@ var Portfolio = function (flag, input) {
                 }
             }
             function getHeight() {
-                const height = gallery.clientHeight - getTranslateY() + 1
+                function getHeightVal() {
+                    if (parent === 'portfolio') {
+                        return gallery.clientHeight
+                    } else {
+                        return gallery.clientHeight - getTranslateY() + 1
+                    }
+                }
+                const height = getHeightVal()
                 if (height < GalleryHeight || parent !== 'social') {
                     GalleryHeight = height
                     return height
