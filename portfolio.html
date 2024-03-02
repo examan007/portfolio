@@ -2,15 +2,7 @@
 <script>
 
 </script>
-<script>
-   Portfolio(false, {
-        ParentName: 'portfolio'
-   })
-   Portfolio(false, {
-        ParentName: 'social',
-        noscroll: true,
-   })
-</script>
+
 <div>
     <h1>
         <p>test</p>
@@ -21,6 +13,11 @@
 </div>
 <object id="portfolio" type="text/html" style="overflow-y: hidden!important; width: 100%; max-width: none!important;"
         data="https://test.neolation.com/portfolio/index.html?parent=portfolio"></object>
+<script>
+   Portfolio(false, {
+        ParentName: 'portfolio'
+   })
+</script>
 <div>
     <h1>
         <p>test</p>
@@ -32,7 +29,12 @@
 </div>
 <object id="social" class="social-target" type="text/html" style="overflow-y: hidden!important; height: 1000px; width: 100%; max-width: none!important;"
         data="https://test.neolation.com/portfolio/porttest.html?parent=social"></object>
-<div>
+<script>
+   Portfolio(false, {
+        ParentName: 'social',
+        noscroll: true,
+   })
+</script><div>
     <h1>
         <p>test</p>
         <p>test</p>
