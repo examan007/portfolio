@@ -150,7 +150,8 @@ var Portfolio = function (flag, input) {
             }
             function getHeight() {
                 function getHeightVal() {
-                    if (parent === 'portfolio') {
+                    const notransflag = getOrElse(options.notransflag, false)
+                    if (notransflag) {
                         return gallery.clientHeight
                     } else {
                         return gallery.clientHeight - getTranslateY() + 1
