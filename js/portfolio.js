@@ -5,6 +5,9 @@ var Portfolio = function (flag, input) {
         log: function(msg) {},
     }
     function getOrElse(value, defvalue) {
+        if (value === null) {
+            return defvalue
+        } else
         if (typeof(value) === 'undefined') {
             return defvalue
         } else {
@@ -13,6 +16,9 @@ var Portfolio = function (flag, input) {
     }
     const options = getOrElse(input, {})
     const parent = getOrElse(options.ParentName, 'portfolio')
+    const scrollmap = getOrElse(options.ScrollMap, 'portfolio')
+    const scrolltarget = getOrElse(options.ScrollTarget, '.nivo-lightbox-overlay')
+    const translateY = getOrElse(options.TranslateY, '0')
     function getWindowDimensions () {
         const width = window.innerWidth
         const height = window.innerHeight
@@ -30,7 +36,7 @@ var Portfolio = function (flag, input) {
             parent: parent
         }), "*");
     }
-    function sendToPortfolio() {
+    function sendToPortfolio(scrollinputmap) {
         const message = JSON.stringify({
            operation: 'scroll',
            data: {
@@ -40,9 +46,13 @@ var Portfolio = function (flag, input) {
               options: options
            }
         })
-        var objectElement = document.getElementById('portfolio');
-        var embeddedWindow = objectElement.contentWindow;
-        embeddedWindow.postMessage(message, '*')
+        try {
+            var objectElement = document.getElementById(scrollinputmap);
+            var embeddedWindow = objectElement.contentWindow;
+            embeddedWindow.postMessage(message, '*')
+        } catch (e) {
+            console.log("scroll map: " + scrollinputmap + " " + e.toString())
+        }
     }
     var LastData = null
     function positionLightBox(data) {
@@ -54,10 +64,12 @@ var Portfolio = function (flag, input) {
         try {
             const padding = getOrElse(data.options.padding, 0)
             const tailing = getOrElse(data.options.tailing, padding / 2)
-            const obj = document.querySelectorAll('.nivo-lightbox-overlay')[0]
-            obj.style.height = (data.height - padding) + "px"
+            const translatey = getOrElse(data.options.translateY, 0)
+            const obj = document.querySelectorAll(scrolltarget)[0]
+            const newheight = data.height - padding + translatey
+            obj.style.height = newheight + "px"
             function getScroll () {
-                const trans = getOrElse(data.options.translateY, 0)
+                const trans = translatey
                 const max = data.offset + TotalHeight - data.height + tailing
                 if (data.scroll > max) {
                     return max
@@ -70,9 +82,10 @@ var Portfolio = function (flag, input) {
             }
             const top = getScroll() + "px"
             obj.style.top = top
-            console.log("top: " + top)
+            //obj.style.transform = 'translate-y(' + translatey + 'px)'
+            console.log("height: " + newheight + " top: " + top + " translateY: " + translatey +" scroll map: " + scrollmap + " target: " + scrolltarget)
         } catch (e) {
-            console.log(e.toString())
+            console.log("scroll error: " + e.toString())
         }
     }
     function receiveMessage(event) {
@@ -80,23 +93,30 @@ var Portfolio = function (flag, input) {
         if (event.isTrusted === true) {
             try {
                 var message = JSON.parse(event.data)
-                console.log("Received message: [" + event.data + "]")
-                if (message.operation === 'resize') {
+                if (message.operation === 'resize' && ! flag) {
                     function getParentName() {
-                        const parent = message.parent
-                        if (typeof(parent) === 'undefined') {
+                        const parentval = message.parent
+                        if (typeof(parentval) === 'undefined') {
                             return 'portfolio'
                         } else {
-                            return parent
+                            return parentval
                         }
                     }
-                    const portfolio = document.getElementById(getParentName())
-                    portfolio.style.height = message.data.height + 'px'
-                    sendToPortfolio()
+                    const parentname = getParentName()
+                    if (parentname === parent) {
+                        console.log("Received message: [" + event.data + "]")
+                        const portfolio = document.getElementById(parentname)
+                        portfolio.style.height = message.data.height + 'px'
+                        portfolio.style.overflow = 'hidden'
+                        if (message.data.noscroll !== true) {
+                            sendToPortfolio(parentname)
+                        }
+                    }
                 } else
-                if (message.operation === 'scroll') {
+                if (message.operation === 'scroll' && flag) {
                     console.log("scroll event.data: " + event.data)
                     positionLightBox(message.data)
+                    setHeight(true)
                 }
             } catch (e) {
                 console.log(e.toString())
@@ -104,22 +124,56 @@ var Portfolio = function (flag, input) {
         }
     }
     window.addEventListener("message", receiveMessage, false)
-    function setHeight() {
-        const gallery = document.getElementById(parent)
-        const height = gallery.clientHeight
-        console.log("height: " + height)
-        sendMessage({ height: height})
-        function setOverlayHeight() {
-            try {
-                const overlay = document.querySelectorAll('.nivo-lightbox-overlay')[0]
-                overlay.setAttribute("style", "height: " + getWindowDimensions().height + "px")
-            } catch (e) {
-                console.log(e.toString())
+    var GalleryHeight = 20000
+    function setHeight(noscroll) {
+        try {
+            const selector = getOrElse(options.ScrollTarget, null)
+            function getGallery() {
+                if (selector === null) {
+                    return document.getElementById(parent)
+                } else {
+                    return document.querySelectorAll(selector)[0]
+                }
             }
-            //window.setTimeout(setOverlayHeight(), 1000)
+            const gallery = getGallery()
+            function getTranslateY() {
+                try {
+                    const value = LastData.options.translateY
+                    if (isNaN(value)) {
+                        return 0
+                    } else {
+                        return value
+                    }
+                } catch (e) {
+                    return 0
+                }
+            }
+            function getHeight() {
+                function getHeightVal() {
+                    const notransflag = getOrElse(options.notransflag, false)
+                    if (notransflag) {
+                        return gallery.clientHeight
+                    } else {
+                        return gallery.clientHeight - getTranslateY() + 1
+                    }
+                }
+                const height = getHeightVal()
+                if (height < GalleryHeight || parent !== 'social') {
+                    GalleryHeight = height
+                    return height
+                } else {
+                    return GalleryHeight
+                }
+            }
+            const height = getHeight()
+            console.log("set height: " + height + " parent: " + parent + " scroll target: " + selector)
+            sendMessage({
+                height: height,
+                noscroll: getOrElse(noscroll, false),
+            })
+        } catch (e) {
+            console.log("set height for: " + parent + " scroll target: " + scrolltarget + "" + e.toString())
         }
-        //setOverlayHeight()
-       // window.setInterval(setOverlayHeight, 1000)
     }
 
     var elements = document.querySelectorAll('.opc-main-bg')
@@ -127,7 +181,7 @@ var Portfolio = function (flag, input) {
         console.log("register: " + element.outerHTML)
         element.addEventListener("click", ()=> {
             console.log("clicked: " + element.outerHTML)
-            window.setTimeout(setHeight, 100)
+            //window.setTimeout(setHeight, 100)
         })
     })
 
@@ -173,8 +227,12 @@ var Portfolio = function (flag, input) {
             loadResources(data, 'residents')
             loadResources(data, 'activities')
             window.setTimeout(() => {
-               window.setTimeout(setHeight, 1000)
-               CustomObj()
+               //window.setTimeout(setHeight, 1000)
+               try {
+                CustomObj()
+               } catch (e) {
+                console.log(e.toString())
+               }
             }, 1000)
          })
           .catch(error => {
@@ -183,26 +241,35 @@ var Portfolio = function (flag, input) {
     }
 
     if (flag) {
+        console.log("set height initialize : " + parent)
+
         document.addEventListener('DOMContentLoaded', function(event) {
             const loadfunc = getOrElse(options.LoadFunc, getResources)
             loadfunc()
         });
 
         window.addEventListener('load', function(event) {
-            try {
-                CustomObj()
-            } catch (e) {
-                console.log(e.toString())
+            console.log("set height timer, parent: " + parent)
+            if (parent === 'portfolio') {
+                window.setTimeout(() => {
+                    setHeight()
+                }, 1000)
+                try {
+                    CustomObj()
+                } catch (e) {
+                    console.log(e.toString())
+                }
             }
-            window.setTimeout(() => {
-                setHeight()
-            }, 1000)
         });
-            document.getElementById('portfolio').
-                addEventListener("click", (element)=> {
-                    console.log("clicked: " + element.outerHTML)
+        try {
+            document.getElementById(parent).
+                addEventListener("click", (event)=> {
+                    console.log("clicked: " + this.outerHTML)
                     setHeight()
                 })
+        } catch (e) {
+            console.log("adding click: " + e.toString())
+        }
 
     } else {
         window.addEventListener('load', function() {
@@ -219,22 +286,44 @@ var Portfolio = function (flag, input) {
 
         })
         try {
-            document.getElementById('portfolio').
+            window.addEventListener('load', function() {
+                var element = document.getElementById(scrollmap);
+                var rect = element.getBoundingClientRect();
+
+                StartOfPortfolio = getOrElse(options.offset, rect.top)
+                console.log('Top: ' + rect.top);
+                console.log('Left: ' + rect.left);
+                console.log('Bottom: ' + rect.bottom);
+                console.log('Right: ' + rect.right);
+                console.log('Width: ' + rect.width);
+                console.log('Height: ' + rect.height);
+
+            })
+        } catch (e) {
+            console.log(e.toString())
+        }
+        try {
+            document.getElementById(scrollmap).
                 addEventListener("click", (element)=> {
                     console.log("clicked: " + element.outerHTML)
                 })
             console.log("registered click on portfolio.")
         } catch (e) {
-            console.log(e.toString())
+            console.log(e.toString() + JSON.stringify(options))
         }
+        if (getOrElse(options.noscroll, false) === false)
+        try {
             window.addEventListener('scroll', function(event) {
                 // Function to handle scroll event
                 // You can perform actions here based on the scroll event
                 console.log('Scrolling detected!');
                 console.log('Scroll position X: ' + window.scrollX);
                 console.log('Scroll position Y: ' + window.scrollY);
-                sendToPortfolio()
+                sendToPortfolio(scrollmap)
             })
+        } catch (e) {
+            console.log(e.toString())
+        }
     }
 
 return {
@@ -246,12 +335,16 @@ return {
         onload: function () {
             getResources()
         },
-        setHeight: function () {
-            setHeight()
+        setHeight: function (flag) {
+            setHeight(flag)
         },
         loadPosts: function (data) {
-            loadResources(data, 'property', true)
+            //loadResources(data, 'property', true)
+        },
+        sendScroll: function () {
+            //sendToPortfolio(scrollmap)
         }
+
 
     }
 }
