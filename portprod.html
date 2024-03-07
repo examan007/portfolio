@@ -1,50 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <!-- site title -->
+    <title>Social Media Feed Plugin</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="css/portfolio.css">
+    <link rel="stylesheet" href="css/traverse.css">
+    <script src="js/portfolio.js"></script>
+    <script src="js/traverse.js"></script>
+    <script src="social/files.js"></script>
+    <!--
+    Alpha Template
+    https://templatemo.com/tm-465-alpha
+    -->
 </head>
-<body>
-
-<! portfolio gallert >
-<script src="https://test.neolation.com/portfolio/js/portfolio.js"></script>
+<body style="overflow: hidden;">
+<div class="social-panels">
+    <object id="panel0" class="scroll-target" type="text/html" style="width: 100%; max-width: 300px !important;"
+            data="https://examan007.github.io/portfolio/socialmine.html?parent=panel0"></object>
+    <object id="panel1" class="scroll-target" type="text/html" style="width: 100%; max-width: 300px !important;"
+            data="https://examan007.github.io/portfolio/socialmine.html?parent=panel1"></object>
+    <object id="panel2" class="scroll-target" type="text/html" style="width: 100%; max-width: 300px !important;"
+            data="https://examan007.github.io/portfolio/socialmine.html?parent=panel2"></object>
+</div>
 <script>
-
-</script>
-<!object id="portfolio"
-        type="text/html"
-        style="overflow-y: hidden!important; width: 100%; max-width: none!important;"
-        data="https://examan007.github.io/portfolio/index.html">
-<object id="portfolio"
-        type="text/html"
-        style="overflow-y: hidden!important; width: 100%; max-width: none!important;"
-        data="https://test.neolation.com/portfolio/index.html?parent=portfolio">
-
-</object>
-<script>
-   Portfolio(false, {
-       ParentName: 'portfolio',
-   })
-   const moreoptions = {
-       translateY: 100,
-       padding: 200,
-       tailing: 325,
-   }
-</script>
-
-<! social media >
-<object id="social"
-        type="text/html"
-        style="overflow-y: hidden!important; height: 1000px; width: 100%; max-width: none!important;"
-        data="https://test.neolation.com/portfolio/porttest.html?parent=social">
-
-</object>
-<script>
-   Portfolio(false, {
-        ParentName: 'social',
-        noscroll: true,
-   })
-</script>
-
+        Traversion().loadClients().loadServer('.social-panels', 6000)
+    </script>
 </body>
 </html>
