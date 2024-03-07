@@ -103,8 +103,9 @@ var Portfolio = function (flag, input) {
                         }
                     }
                     const parentname = getParentName()
-                    if (parentname === parent) {
-                        console.log("Received message: [" + event.data + "]")
+                    if (parentname === parent &&
+                     !(parent === "social" && message.data.noscroll === true)) {
+                        console.log("set height parent: [" + event.data + "]")
                         const portfolio = document.getElementById(parentname)
                         portfolio.style.height = message.data.height + 'px'
                         portfolio.style.overflow = 'hidden'
@@ -116,6 +117,7 @@ var Portfolio = function (flag, input) {
                 if (message.operation === 'scroll' && flag) {
                     console.log("scroll event.data: " + event.data)
                     positionLightBox(message.data)
+                    console.log("set height parent: " + parent)
                     setHeight(true)
                 }
             } catch (e) {
@@ -273,9 +275,8 @@ var Portfolio = function (flag, input) {
 
     } else {
         window.addEventListener('load', function() {
-            var element = document.getElementById('portfolio');
+            var element = document.getElementById(parent);
             var rect = element.getBoundingClientRect();
-
             StartOfPortfolio = rect.top
             console.log('Top: ' + rect.top);
             console.log('Left: ' + rect.left);
@@ -289,7 +290,6 @@ var Portfolio = function (flag, input) {
             window.addEventListener('load', function() {
                 var element = document.getElementById(scrollmap);
                 var rect = element.getBoundingClientRect();
-
                 StartOfPortfolio = getOrElse(options.offset, rect.top)
                 console.log('Top: ' + rect.top);
                 console.log('Left: ' + rect.left);
