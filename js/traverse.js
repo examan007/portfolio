@@ -97,7 +97,7 @@ var Traversion = function () {
                     loadPortfolio(index + 1, scale)
                 }
             }
-            loadPortfolio(0, 68 / metrics[0].start)
+            loadPortfolio(0, 1)
             return this
         },
         loadServer: function (scrolltarget, delay) {
