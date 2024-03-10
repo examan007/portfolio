@@ -105,6 +105,10 @@ var Portfolio = function (flag, input) {
                     const parentname = getParentName()
                     if (parentname === parent &&
                      !(parent === "social" && message.data.noscroll === true)) {
+                         if (parentname === "organization") {
+                            const wrapper = document.getElementById("portfolio")
+                            wrapper.style.height = message.data.height + 'px'
+                         }
                         console.log("set height parent: [" + event.data + "]")
                         const portfolio = document.getElementById(parentname)
                         portfolio.style.height = message.data.height + 'px'
@@ -116,7 +120,9 @@ var Portfolio = function (flag, input) {
                 } else
                 if (message.operation === 'scroll' && flag) {
                     console.log("scroll event.data: " + event.data)
-                    positionLightBox(message.data)
+                    if (parent !== "organization") {
+                        positionLightBox(message.data)
+                    }
                     console.log("set height parent: " + parent)
                     setHeight(true)
                 }
