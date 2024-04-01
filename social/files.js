@@ -30,8 +30,8 @@ var MetricList = function () { return [
         "start": 1403,
         "height": 413
     },
-    "start": 1412,
-    "height": 675
+    "start": 1066,
+    "height": 288
   },
   {
     "name": "split_25.png",
