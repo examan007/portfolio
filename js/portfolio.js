@@ -1,7 +1,7 @@
 var Portfolio = function (flag, input) {
     var TotalHeight = 0
     var StartOfPortfolio = 0
-    var console = {
+    var consolex = {
         log: function(msg) {},
     }
     function getOrElse(value, defvalue) {
@@ -55,7 +55,7 @@ var Portfolio = function (flag, input) {
         }
     }
     var LastData = null
-    function positionLightBox(data) {
+    function positionLightBoxOrig(data) {
         if (data == null) {
             data = LastData
         } else {
@@ -86,6 +86,33 @@ var Portfolio = function (flag, input) {
             console.log("height: " + newheight + " top: " + top + " translateY: " + translatey +" scroll map: " + scrollmap + " target: " + scrolltarget)
         } catch (e) {
             console.log("scroll error: " + e.toString())
+        }
+    }
+    function positionLightBoxAlt(data) {
+        if (data == null) {
+            data = LastData
+        } else {
+            LastData = data
+        }
+        try {
+            const obj = document.querySelectorAll(scrolltarget)[0]
+            obj.style.height = data.options.height + "px"
+            const top = data.options.top + "px"
+            obj.style.top = top
+           console.log("height: " + obj.style.height + " top: " + top  + " scroll map: " + scrollmap + " target: " + scrolltarget)
+        } catch (e) {
+            console.log("scroll error: " + e.toString())
+        }
+    }
+    function positionLightBox(data) {
+        try {
+            if (data.options.tflag === true) {
+                positionLightBoxAlt(data)
+            } else {
+                positionLightBoxOrig(data)
+            }
+        } catch (e) {
+            console.log("postion: " + e.toString())
         }
     }
     function receiveMessage(event) {

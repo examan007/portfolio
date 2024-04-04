@@ -27,7 +27,7 @@ var Traversion = function () {
 
     function traverseNodes(element) {
         // Reference the current node
-        console.log("Node:", element);
+        console.log("traverse: " + "Node:", element);
 
         // Check if the current node has children
         if (element.children.length > 0) {
@@ -38,6 +38,7 @@ var Traversion = function () {
         }
     }
     function traverse() {
+        console.log("traverse: looking for portfolio.")
         // Get the <div> element with id "portfolio"
         var portfolioDiv = document.getElementById("portfolio");
 
@@ -49,7 +50,7 @@ var Traversion = function () {
             // Check if the <object> element exists
             if (objectElement) {
                 // Perform operations with the <object> element
-                console.log("Found <object> element:", objectElement);
+                console.log("traverse: " + "Found <object> element:", objectElement);
                 // You can access attributes, manipulate content, or perform other actions with the <object> element here
                 var iframeDocument = objectElement.contentDocument || objectElement.contentWindow.document;
 
@@ -60,6 +61,7 @@ var Traversion = function () {
         } else {
             console.log("No <div id='portfolio'> element found");
         }
+        console.log("traverse: Done...")
     }
 
     function getWindowDimensions () {
@@ -72,32 +74,36 @@ var Traversion = function () {
         }
     }
 
-    //traverse()
-
     return {
+        traverse: function () {
+            traverse()
+        },
         loadClients: function () {
             const metrics = MetricList()
             const viewheight = getWindowDimensions().height
-            function loadPortfolio(index, scale) {
-                if (index < 3) {
+            function loadPortfolio(index, scale, count) {
+                if (count >= 3) {
+                } else
+                if (metrics[index].name === "skip") {
+                    loadPortfolio(index + 1, scale, count)
+                } else {
                     const start = (0 - metrics[index].start)  * scale
                     const height = metrics[index].height * scale
                     const padding = viewheight - height - metrics[0].start * scale
                     const name = "panel" + index
                     const options = {
-                        translateY: (0 -  start),
-                        padding: padding,
-                        tailing: 0,
-                        offset: start,
+                        tflag: true,
+                        height: height,
+                        top: (0 - start),
                         ScrollMap: name,
                         ParentName: name
                     }
-                    console.log(JSON.stringify(options))
+                    console.log("traverse: " + JSON.stringify(options))
                     Portfolio(false, options)
-                    loadPortfolio(index + 1, scale)
+                    loadPortfolio(index + 1, scale, count + 1)
                 }
             }
-            loadPortfolio(0, 1)
+            loadPortfolio(0, 1, 0)
             return this
         },
         loadServer: function (scrolltarget, delay) {
