@@ -7,35 +7,30 @@ var FileList = function () { return [
 ]}
 var MetricList = function () { return [
   {
-    "name": "split_13.png",
+    "name": "split_7.png",
     "orig": {
-        "start": 319,
-        "height": 635
+        "start": 84,
+        "height": 693
     },
-    "start": 315,
-    "height": 158
-  },
-  {
-    "name": "split_19.png",
-    "orig": {
-        "start": 959,
-        "height": 674
-    },
-    "start": 783,
-    "height": 222
+    "start": 68,
+    "height": 470
   },
   {
     "name": "split_25.png",
     "orig": {
-        "start": 1638,
-        "height": 413
+        "start": 1657,
+        "height": 674
     },
-    "start": 1311,
-    "height": 40
+    "start": 1312,
+    "height": 468
   },
   {
     "name": "split_31.png",
-    "start": 2056,
-    "height": 803
+    "orig": {
+        "start": 2336,
+        "height": 413
+    },
+    "start": 1840,
+    "height": 285
   }
 ]}
