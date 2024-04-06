@@ -81,29 +81,43 @@ var Traversion = function () {
         loadClients: function () {
             const metrics = MetricList()
             const viewheight = getWindowDimensions().height
-            function loadPortfolio(index, scale, count) {
+            function loadPortfolio(index, offset, count) {
+                const scale = 1
                 if (count >= 3) {
                 } else
                 if (metrics[index].name === "skip") {
-                    loadPortfolio(index + 1, scale, count)
+                    loadPortfolio(index + 1, offset, count)
                 } else {
-                    const start = (0 - metrics[index].start)  * scale
-                    const height = metrics[index].height * scale
-                    const padding = viewheight - height - metrics[0].start * scale
-                    const name = "panel" + index
+                    function getMetrics() {
+                        try {
+                            const start = Math.round(0 - metrics[index].start + metrics[index].offset)
+                            const height = Math.round(metrics[index].height + metrics[index].start + metrics[index].padding)
+                            return {
+                                start: start,
+                                height: height
+                            }
+                        } catch (e) {
+                            console.log("getting metrics: " + e.toString())
+                            return {
+                                start: 68,
+                                height: 500
+                            }
+                        }
+                    }
+                    const name = "panel" + count
                     const options = {
                         tflag: true,
-                        height: height,
-                        top: (0 - start),
+                        height: getMetrics().height,
+                        top: getMetrics().start,
                         ScrollMap: name,
                         ParentName: name
                     }
-                    console.log("traverse: " + JSON.stringify(options))
+                    console.log("xheight: " + JSON.stringify(options))
                     Portfolio(false, options)
-                    loadPortfolio(index + 1, scale, count + 1)
+                    loadPortfolio(index + 1, offset, count + 1)
                 }
             }
-            loadPortfolio(0, 1, 0)
+            loadPortfolio(0, 84 - 68, 0)
             return this
         },
         loadServer: function (scrolltarget, delay) {

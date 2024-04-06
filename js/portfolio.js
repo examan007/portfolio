@@ -1,7 +1,7 @@
 var Portfolio = function (flag, input) {
     var TotalHeight = 0
     var StartOfPortfolio = 0
-    var consolex = {
+    var console = {
         log: function(msg) {},
     }
     function getOrElse(value, defvalue) {
@@ -83,36 +83,33 @@ var Portfolio = function (flag, input) {
             const top = getScroll() + "px"
             obj.style.top = top
             //obj.style.transform = 'translate-y(' + translatey + 'px)'
-            console.log("height: " + newheight + " top: " + top + " translateY: " + translatey +" scroll map: " + scrollmap + " target: " + scrolltarget)
+            console.log("xheight: " + newheight + " top: " + top + " translateY: " + translatey +" scroll map: " + scrollmap + " target: " + scrolltarget)
         } catch (e) {
-            console.log("scroll error: " + e.toString())
+            console.log("xheight: scroll error: " + e.toString())
         }
     }
     function positionLightBoxAlt(data) {
-        if (data == null) {
-            data = LastData
-        } else {
-            LastData = data
-        }
         try {
             const obj = document.querySelectorAll(scrolltarget)[0]
             obj.style.height = data.options.height + "px"
             const top = data.options.top + "px"
             obj.style.top = top
-           console.log("height: " + obj.style.height + " top: " + top  + " scroll map: " + scrollmap + " target: " + scrolltarget)
+           console.log("parent: " + data.options.ParentName + " xheight: " + obj.style.height + " top: " + top  + " scroll map: " + scrollmap + " target: " + scrolltarget)
         } catch (e) {
-            console.log("scroll error: " + e.toString())
+            console.log("xheight: scroll error: " + e.toString())
         }
     }
-    function positionLightBox(data) {
+    function positionLightBox(indata) {
         try {
-            if (data.options.tflag === true) {
+            const defopts = { "options": {} }
+            const data = getOrElse(getOrElse(indata, LastData), defopts)
+            if (getOrElse(data.options.tflag, false) === true) {
                 positionLightBoxAlt(data)
             } else {
-                positionLightBoxOrig(data)
+                positionLightBoxOrig(indata)
             }
         } catch (e) {
-            console.log("postion: " + e.toString())
+            console.log("xheight: postion: " + e.toString())
         }
     }
     function receiveMessage(event) {

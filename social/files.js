@@ -8,43 +8,37 @@ var FileList = function () { return [
 var MetricList = function () { return [
   {
     "name": "split_7.png",
-    "orig": {
-        "start": 84,
-        "height": 693
-    },
-    "start": 68,
-    "height": 693
+    "start": 76,
+    "height": 561,
+    "offset": 8,
+    "padding": -30
   },
   {
     "name": "skip",
-    "orig": {
-        "start": 782,
-        "height": 230
-    },
-    "start": 782,
-    "height": 230
+    "start": 642,
+    "height": 240,
+    "offset": 45,
+    "padding": -30
   },
   {
-    "name": "split_19.png",
-    "orig": {
-        "start": 1017,
-        "height": 635
-    },
-    "start": 1017,
-    "height": 635
+    "name": "skip",
+    "start": 887,
+    "height": 465,
+    "offset": 45,
+    "padding": -30
   },
   {
     "name": "split_25.png",
-    "orig": {
-        "start": 1657,
-        "height": 674
-    },
-    "start": 1657,
-    "height": 674
+    "start": 1357,
+    "height": 522,
+    "offset": 45,
+    "padding": -30
   },
   {
     "name": "split_31.png",
-    "start": 2336,
-    "height": 413
+    "start": 1884,
+    "height": 342,
+    "offset": 45,
+    "padding": -30
   }
 ]}
