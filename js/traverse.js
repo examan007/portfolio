@@ -88,6 +88,8 @@ var Traversion = function () {
                 if (metrics[index].name === "skip") {
                     loadPortfolio(index + 1, offset, count)
                 } else {
+                    const start = (0 - metrics[index].start)  * scale
+                    const height = metrics[index].height * scale
                     function getMetrics() {
                         try {
                             const start = Math.round(0 - metrics[index].start + metrics[index].offset)
@@ -105,7 +107,12 @@ var Traversion = function () {
                         }
                     }
                     const name = "panel" + count
+                    const padding = viewheight - metrics[index].height - metrics[0].start
                     const options = {
+                        translateY: (0 -  metrics[0].start),
+                        padding: padding,
+                        tailing: 0,
+                        offset: offset,
                         tflag: true,
                         height: getMetrics().height,
                         top: getMetrics().start,
@@ -128,8 +135,22 @@ var Traversion = function () {
                 "translateY": 0
             })
             window.setTimeout(() => {
+                const metrics = MetricList()
+                function getMaxHeight(index, max) {
+                    const metric = getOrElse(metrics[index], {})
+                    const height = getOrElse(metric.height, 0)
+                    if (height > max) {
+                        return getMaxHeight(index + 1, height)
+                    } else
+                    if (height === 0) {
+                        return max
+                    } else {
+                        return getMaxHeight(index + 1, max)
+                    }
+                }
+                const maxheight = getMaxHeight(0, 0)
                 console.log("set height: loadServer timer delay; parent: " + getParentName())
-                portfolio.setHeight()
+                portfolio.setHeight(false, maxheight)
             }, getOrElse(delay, 3000))
             return this
         }

@@ -157,7 +157,7 @@ var Portfolio = function (flag, input) {
     }
     window.addEventListener("message", receiveMessage, false)
     var GalleryHeight = 20000
-    function setHeight(noscroll) {
+    function setHeight(noscroll, forceheight) {
         try {
             const selector = getOrElse(options.ScrollTarget, null)
             function getGallery() {
@@ -182,7 +182,11 @@ var Portfolio = function (flag, input) {
             }
             function getHeight() {
                 function getHeightVal() {
+                    const force = getOrElse(forceheight, 0)
                     const notransflag = getOrElse(options.notransflag, false)
+                    if (force > 0) {
+                        return force
+                    } else
                     if (notransflag) {
                         return gallery.clientHeight
                     } else {
@@ -365,8 +369,8 @@ return {
         onload: function () {
             getResources()
         },
-        setHeight: function (flag) {
-            setHeight(flag)
+        setHeight: function (flag, forceheight) {
+            setHeight(flag, forceheight)
         },
         loadPosts: function (data) {
             //loadResources(data, 'property', true)
