@@ -55,7 +55,7 @@ var Portfolio = function (flag, input) {
         }
     }
     var LastData = null
-    function positionLightBox(data) {
+    function positionLightBoxOrig(data) {
         if (data == null) {
             data = LastData
         } else {
@@ -83,9 +83,33 @@ var Portfolio = function (flag, input) {
             const top = getScroll() + "px"
             obj.style.top = top
             //obj.style.transform = 'translate-y(' + translatey + 'px)'
-            console.log("height: " + newheight + " top: " + top + " translateY: " + translatey +" scroll map: " + scrollmap + " target: " + scrolltarget)
+            console.log("xheight: " + newheight + " top: " + top + " translateY: " + translatey +" scroll map: " + scrollmap + " target: " + scrolltarget)
         } catch (e) {
-            console.log("scroll error: " + e.toString())
+            console.log("xheight: scroll error: " + e.toString())
+        }
+    }
+    function positionLightBoxAlt(data) {
+        try {
+            const obj = document.querySelectorAll(scrolltarget)[0]
+            obj.style.height = data.options.height + "px"
+            const top = data.options.top + "px"
+            obj.style.top = top
+           console.log("parent: " + data.options.ParentName + " xheight: " + obj.style.height + " top: " + top  + " scroll map: " + scrollmap + " target: " + scrolltarget)
+        } catch (e) {
+            console.log("xheight: scroll error: " + e.toString())
+        }
+    }
+    function positionLightBox(indata) {
+        try {
+            const defopts = { "options": {} }
+            const data = getOrElse(getOrElse(indata, LastData), defopts)
+            if (getOrElse(data.options.tflag, false) === true) {
+                positionLightBoxAlt(data)
+            } else {
+                positionLightBoxOrig(indata)
+            }
+        } catch (e) {
+            console.log("xheight: postion: " + e.toString())
         }
     }
     function receiveMessage(event) {
@@ -133,7 +157,7 @@ var Portfolio = function (flag, input) {
     }
     window.addEventListener("message", receiveMessage, false)
     var GalleryHeight = 20000
-    function setHeight(noscroll) {
+    function setHeight(noscroll, forceheight) {
         try {
             const selector = getOrElse(options.ScrollTarget, null)
             function getGallery() {
@@ -158,7 +182,11 @@ var Portfolio = function (flag, input) {
             }
             function getHeight() {
                 function getHeightVal() {
+                    const force = getOrElse(forceheight, 0)
                     const notransflag = getOrElse(options.notransflag, false)
+                    if (force > 0) {
+                        return force
+                    } else
                     if (notransflag) {
                         return gallery.clientHeight
                     } else {
@@ -341,8 +369,8 @@ return {
         onload: function () {
             getResources()
         },
-        setHeight: function (flag) {
-            setHeight(flag)
+        setHeight: function (flag, forceheight) {
+            setHeight(flag, forceheight)
         },
         loadPosts: function (data) {
             //loadResources(data, 'property', true)

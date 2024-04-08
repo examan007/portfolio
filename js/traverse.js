@@ -27,7 +27,7 @@ var Traversion = function () {
 
     function traverseNodes(element) {
         // Reference the current node
-        console.log("Node:", element);
+        console.log("traverse: " + "Node:", element);
 
         // Check if the current node has children
         if (element.children.length > 0) {
@@ -38,6 +38,7 @@ var Traversion = function () {
         }
     }
     function traverse() {
+        console.log("traverse: looking for portfolio.")
         // Get the <div> element with id "portfolio"
         var portfolioDiv = document.getElementById("portfolio");
 
@@ -49,7 +50,7 @@ var Traversion = function () {
             // Check if the <object> element exists
             if (objectElement) {
                 // Perform operations with the <object> element
-                console.log("Found <object> element:", objectElement);
+                console.log("traverse: " + "Found <object> element:", objectElement);
                 // You can access attributes, manipulate content, or perform other actions with the <object> element here
                 var iframeDocument = objectElement.contentDocument || objectElement.contentWindow.document;
 
@@ -60,6 +61,7 @@ var Traversion = function () {
         } else {
             console.log("No <div id='portfolio'> element found");
         }
+        console.log("traverse: Done...")
     }
 
     function getWindowDimensions () {
@@ -72,32 +74,57 @@ var Traversion = function () {
         }
     }
 
-    //traverse()
-
     return {
+        traverse: function () {
+            traverse()
+        },
         loadClients: function () {
             const metrics = MetricList()
             const viewheight = getWindowDimensions().height
-            function loadPortfolio(index, scale) {
-                if (index < 3) {
+            function loadPortfolio(index, offset, count) {
+                const scale = 1
+                if (count >= 3) {
+                } else
+                if (metrics[index].name === "skip") {
+                    loadPortfolio(index + 1, offset, count)
+                } else {
                     const start = (0 - metrics[index].start)  * scale
                     const height = metrics[index].height * scale
-                    const padding = viewheight - height - metrics[0].start * scale
-                    const name = "panel" + index
+                    function getMetrics() {
+                        try {
+                            const start = Math.round(0 - metrics[index].start + metrics[index].offset)
+                            const height = Math.round(metrics[index].height + metrics[index].start + metrics[index].padding)
+                            return {
+                                start: start,
+                                height: height
+                            }
+                        } catch (e) {
+                            console.log("getting metrics: " + e.toString())
+                            return {
+                                start: 68,
+                                height: 500
+                            }
+                        }
+                    }
+                    const name = "panel" + count
+                    const padding = viewheight - metrics[index].height - metrics[0].start
                     const options = {
-                        translateY: (0 -  start),
+                        translateY: (0 -  metrics[0].start),
                         padding: padding,
                         tailing: 0,
-                        offset: start,
+                        offset: offset,
+                        tflag: true,
+                        height: getMetrics().height,
+                        top: getMetrics().start,
                         ScrollMap: name,
                         ParentName: name
                     }
-                    console.log(JSON.stringify(options))
+                    console.log("xheight: " + JSON.stringify(options))
                     Portfolio(false, options)
-                    loadPortfolio(index + 1, scale)
+                    loadPortfolio(index + 1, offset, count + 1)
                 }
             }
-            loadPortfolio(0, 1)
+            loadPortfolio(0, 84 - 68, 0)
             return this
         },
         loadServer: function (scrolltarget, delay) {
@@ -108,8 +135,22 @@ var Traversion = function () {
                 "translateY": 0
             })
             window.setTimeout(() => {
+                const metrics = MetricList()
+                function getMaxHeight(index, max) {
+                    const metric = getOrElse(metrics[index], {})
+                    const height = getOrElse(metric.height, 0)
+                    if (height > max) {
+                        return getMaxHeight(index + 1, height)
+                    } else
+                    if (height === 0) {
+                        return max
+                    } else {
+                        return getMaxHeight(index + 1, max)
+                    }
+                }
+                const maxheight = getMaxHeight(0, 0)
                 console.log("set height: loadServer timer delay; parent: " + getParentName())
-                portfolio.setHeight()
+                portfolio.setHeight(false, maxheight)
             }, getOrElse(delay, 3000))
             return this
         }
