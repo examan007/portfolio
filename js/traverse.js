@@ -78,12 +78,18 @@ var Traversion = function () {
         loadClients: function () {
             const metrics = MetricList()
             const viewheight = getWindowDimensions().height
-            function loadPortfolio(index, scale) {
-                if (index < 3) {
-                    const start = (0 - metrics[index].start)  * scale
-                    const height = metrics[index].height * scale
-                    const padding = viewheight - height - metrics[0].start * scale
-                    const name = "panel" + index
+            function loadPortfolio(index, count) {
+                if (count >= 3) {
+                } else
+                if (index >= metrics.length) {
+                } else
+                if (metrics[index].name === "skip") {
+                    loadPortfolio(index + 1, count)
+                } else {
+                    const start = (0 + metrics[index].offset - metrics[index].start)
+                    const height = metrics[index].height
+                    const padding = viewheight - height - metrics[0].start - metrics[index].padding
+                    const name = "panel" + count
                     const options = {
                         translateY: (0 -  start),
                         padding: padding,
@@ -94,10 +100,10 @@ var Traversion = function () {
                     }
                     console.log(JSON.stringify(options))
                     Portfolio(false, options)
-                    loadPortfolio(index + 1, scale)
+                    loadPortfolio(index + 1, count + 1)
                 }
             }
-            loadPortfolio(0, 1)
+            loadPortfolio(0, 0)
             return this
         },
         loadServer: function (scrolltarget, delay) {
