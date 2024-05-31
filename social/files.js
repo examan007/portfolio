@@ -9,35 +9,35 @@ var MetricList = function () { return [
   {
     "name": "split_7.png",
     "start": 76,
-    "height": 523,
+    "height": 744,
     "offset": 8,
-    "padding": -62
+    "padding": -80
   },
   {
     "name": "split_13.png",
-    "start": 604,
-    "height": 528,
-    "offset": 8,
-    "padding": -62
+    "start": 825,
+    "height": 523,
+    "offset": 25,
+    "padding": -65
   },
   {
-    "name": "split_19.png",
-    "start": 1137,
-    "height": 575,
-    "offset": 8,
-    "padding": -62
+    "name": "skip",
+    "start": 1353,
+    "height": 528,
+    "offset": 25,
+    "padding": -65
   },
   {
     "name": "split_25.png",
-    "start": 1717,
-    "height": 475,
-    "offset": 45,
-    "padding": -30
+    "start": 1886,
+    "height": 575,
+    "offset": 25,
+    "padding": -65
   },
   {
     "name": "split_31.png",
-    "start": 2197,
-    "height": 729,
+    "start": 2466,
+    "height": 475,
     "offset": 45,
     "padding": -30
   }
