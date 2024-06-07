@@ -14,30 +14,30 @@ var MetricList = function () { return [
     "padding": -65
   },
   {
-    "name": "skip",
+    "name": "split_13.png",
     "start": 515,
+    "height": 381,
+    "offset": 8,
+    "padding": -65
+  },
+  {
+    "name": "split_19.png",
+    "start": 901,
+    "height": 434,
+    "offset": 8,
+    "padding": -60
+  },
+  {
+    "name": "split_25.png",
+    "start": 1340,
     "height": 565,
     "offset": 45,
     "padding": -30
   },
   {
-    "name": "split_19.png",
-    "start": 1085,
-    "height": 744,
-    "offset": 78,
-    "padding": -85
-  },
-  {
-    "name": "split_25.png",
-    "start": 1834,
-    "height": 523,
-    "offset": 98,
-    "padding": -65
-  },
-  {
     "name": "split_31.png",
-    "start": 2362,
-    "height": 528,
+    "start": 1910,
+    "height": 744,
     "offset": 45,
     "padding": -30
   }
